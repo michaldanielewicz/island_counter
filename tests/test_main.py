@@ -14,3 +14,12 @@ def test_get_terrain_map(raw_input):
     assert isinstance(terrain_map, list)
     assert len(terrain_map) == 8
     assert all([len(row) == 9 for row in terrain_map])
+
+
+def test_count_islands(raw_input):
+    terrain_map = TerrainMapConverter(raw_input).get_terrain_map()
+    island_counter = IslandCounter(terrain_map)
+
+    counted_islands = island_counter.count_islands()
+
+    assert counted_islands == 4
