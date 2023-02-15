@@ -33,28 +33,15 @@ class TerrainMapConverter:
 class IslandCounter:
     def __init__(self, terrain_map: list[list[int]]) -> None:
         self.terrain_map = terrain_map
+        self.number_of_rows = len(self.terrain_map)
+        self.length_of_row = len(self.terrain_map[0])
 
     def count_islands(self) -> int:
         """Count islands using DPF algorithm."""
 
-        number_of_rows = len(self.terrain_map)
-        length_of_row = len(self.terrain_map[0])
-
-        def is_out_of_map(i: int, j: int) -> bool:
-            """Checks whether index is out of array."""
-            if i < 0 or i >= number_of_rows or j < 0 or j >= length_of_row:
-                return True
-            return False
-
-        def is_land(i: int, j: int) -> bool:
-            """Checks if index has a LAND value (1)."""
-            if self.terrain_map[i][j] == 1:
-                return True
-            return False
-
         def search_for_land(i: int, j: int) -> None:
             """Checks all neighbours for being a piece of land."""
-            if (i, j) in visited_land or is_out_of_map(i, j) or not is_land(i, j):
+            if (i, j) in visited_land or self._is_out_of_map(i, j) or not self._is_land(i, j):
                 return None
             visited_land.add((i, j))
             search_for_land(i, j - 1)  # check right
@@ -68,12 +55,24 @@ class IslandCounter:
 
         visited_land = set()
         islands_count = 0
-        for row in range(number_of_rows):
-            for column in range(length_of_row):
-                if is_land(row, column) and (row, column) not in visited_land:
+        for row in range(self.number_of_rows):
+            for column in range(self.length_of_row):
+                if self._is_land(row, column) and (row, column) not in visited_land:
                     search_for_land(row, column)
                     islands_count += 1
         return islands_count
+
+    def _is_out_of_map(self, i: int, j: int) -> bool:
+        """Checks whether index is out of array."""
+        if i < 0 or i >= self.number_of_rows or j < 0 or j >= self.length_of_row:
+            return True
+        return False
+
+    def _is_land(self, i: int, j: int) -> bool:
+        """Checks if index has a LAND value (1)."""
+        if self.terrain_map[i][j] == 1:
+            return True
+        return False
 
 
 if __name__ == "__main__":
