@@ -22,6 +22,17 @@ def test_get_terrain_map(raw_input):
     assert all([len(row) == 9 for row in terrain_map])
 
 
+@pytest.mark.parametrize("invalid_input", ["0 0 1 2 0", "12 0 0 1"])
+def test_check_input_is_valid(invalid_input):
+    with pytest.raises(ValueError):
+        TerrainMapConverter(invalid_input)
+
+
+def test_check_input_is_not_empty():
+    with pytest.raises(ValueError):
+        TerrainMapConverter(raw_input="")
+
+
 def test_is_out_of_map(island_counter):
     assert island_counter._is_out_of_map(10, 10) is True
     assert island_counter._is_out_of_map(-1, 0) is True

@@ -12,6 +12,8 @@ class InputReader:
 class TerrainMapConverter:
     def __init__(self, raw_input: str) -> None:
         self.raw_input = raw_input
+        self._check_input_is_not_empty()
+        self._check_input_has_valid_characters()
 
     def get_terrain_map(self) -> list[list[int]]:
         """Converts a raw input into 2D array."""
@@ -28,6 +30,18 @@ class TerrainMapConverter:
                 terrain_map.append(row)
                 row = []
         return terrain_map
+
+    def _check_input_is_not_empty(self) -> None:
+        if len(self.raw_input) == 0:
+            raise ValueError("Input is empty")
+        return None
+
+    def _check_input_has_valid_characters(self) -> None:
+        """Checks if converted map is correct."""
+        for char in self.raw_input:
+            if char not in ("0", "1", "\n", " "):
+                raise ValueError(f"Illegal characters in provided file: {char}")
+        return None
 
 
 class IslandCounter:
@@ -81,7 +95,7 @@ class IslandCounter:
 
 
 if __name__ == "__main__":
-    raw_input = InputReader(file_path="test_input.txt").read_input()
-    terrain_map = TerrainMapConverter(raw_input=raw_input).get_terrain_map()
-    island_counter = IslandCounter(terrain_map=terrain_map)
+    raw_text_input = InputReader(file_path="test_input.txt").read_input()
+    terrain_map_array = TerrainMapConverter(raw_text_input).get_terrain_map()
+    island_counter = IslandCounter(terrain_map_array)
     print(island_counter.count_islands())
