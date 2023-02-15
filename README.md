@@ -56,12 +56,6 @@ Take into the assumption, that data structure given to you could be very large i
 so beware of implementation that could result in stack overflow or out of memory
 exception.
 
-Technical restrictions:
-* Please use a “reasonable” number of dependencies on external libraries (the
-best approach is to use only the unit testing framework)
-* For java solution: please use Java 11+ and gradle 5+ or maven 3+
-* For python solution: please use python3+ and pip20+
-
 ### Stack
 
 * Python 3.10
@@ -72,17 +66,42 @@ best approach is to use only the unit testing framework)
 
 ### Installation
 
+0. Install Docker.  
+
+
 1. Clone the repository
 
-    `git clone https://github.com/michaldanielewicz/island_counter`  
-  
+   `git clone https://github.com/michaldanielewicz/island_counter`
+
 
 2. Change directory to the cloned repository
 
-    `cd island_counter`
+   `cd island_counter`
 
-...
+
+3. Build the Docker image:
+
+   `docker build -t island_counter .`
+
 
 ### Usage
 
-...
+Run the script by typing into command line:
+
+   `docker run island_counter <FILEPATH>`
+
+e.g. you can use `test_input.txt` for input by typing: 
+
+   `docker run island_counter test_input.txt`
+   
+In order to run another input you need to copy file to `/island_counter` and re-build Docker image.
+
+### Development / testing
+
+The project uses `Poetry` for dependency management.  
+If you have Poetry you can activate virtual env by typing: `poetry shell`
+in a project dir.  
+
+You can also run script by typing: `poetry run python main.py <FILEPATH>` -- even without activating env.
+
+To run tests type: `poetry run pytest .`
