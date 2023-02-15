@@ -32,9 +32,14 @@ class TerrainMapConverter:
 
 class IslandCounter:
     def __init__(self, terrain_map: list[list[int]]) -> None:
-        self.terrain_map = terrain_map
-        self.number_of_rows = len(self.terrain_map)
-        self.length_of_row = len(self.terrain_map[0])
+        self._terrain_map = terrain_map
+        self._number_of_rows = len(self._terrain_map)
+        self._length_of_row = len(self._terrain_map[0])
+
+    def set_terrain_map(self, terrain_map: list[list[int]]) -> None:
+        self._terrain_map = terrain_map
+        self._number_of_rows = len(self._terrain_map)
+        self._length_of_row = len(self._terrain_map[0])
 
     def count_islands(self) -> int:
         """Count islands using DPF algorithm."""
@@ -55,8 +60,8 @@ class IslandCounter:
 
         visited_land = set()
         islands_count = 0
-        for row in range(self.number_of_rows):
-            for column in range(self.length_of_row):
+        for row in range(self._number_of_rows):
+            for column in range(self._length_of_row):
                 if self._is_land(row, column) and (row, column) not in visited_land:
                     search_for_land(row, column)
                     islands_count += 1
@@ -64,13 +69,13 @@ class IslandCounter:
 
     def _is_out_of_map(self, i: int, j: int) -> bool:
         """Checks whether index is out of array."""
-        if i < 0 or i >= self.number_of_rows or j < 0 or j >= self.length_of_row:
+        if i < 0 or i >= self._number_of_rows or j < 0 or j >= self._length_of_row:
             return True
         return False
 
     def _is_land(self, i: int, j: int) -> bool:
         """Checks if index has a LAND value (1)."""
-        if self.terrain_map[i][j] == 1:
+        if self._terrain_map[i][j] == 1:
             return True
         return False
 
