@@ -1,3 +1,6 @@
+import sys
+
+
 class InputReader:
     def __init__(self, file_path: str):
         self.file_path = file_path
@@ -40,7 +43,7 @@ class TerrainMapConverter:
         """Checks if converted map is correct."""
         for char in self.raw_input:
             if char not in ("0", "1", "\n", " "):
-                raise ValueError(f"Illegal characters in provided file: {char}")
+                raise ValueError(f"Illegal character in provided file: {char}")
         return None
 
 
@@ -95,7 +98,11 @@ class IslandCounter:
 
 
 if __name__ == "__main__":
-    raw_text_input = InputReader(file_path="test_input.txt").read_input()
+    try:
+        file_path = sys.argv[1]
+    except IndexError:
+        raise Exception("Filepath not specified")
+    raw_text_input = InputReader(file_path).read_input()
     terrain_map_array = TerrainMapConverter(raw_text_input).get_terrain_map()
     island_counter = IslandCounter(terrain_map_array)
     print(island_counter.count_islands())
